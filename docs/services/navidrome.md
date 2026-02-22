@@ -130,7 +130,7 @@ It is possible to configure the OAuth2-Proxy role to protect Navidrome via OAuth
 
 Below you will find a sample configutaration that works with the Nextcloud OIDC provider.
 
-```
+```yml
 ########################################################################
 #                                                                      #
 # navidrome                                                            #
@@ -191,7 +191,7 @@ navidrome_container_labels_additional_labels_custom:
 
 Then, configure OAuth2-Proxy:
 
-```
+```yml
 ########################################################################
 #                                                                      #
 # oauth2_proxy                                                         #
