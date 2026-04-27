@@ -26,7 +26,7 @@ This service requires the following other services:
   - for storing session information in a persistent manner
   - if Valkey is not enabled, session information is stored in-memory and restarting Authelia destroys user sessions
 
-- a [Traefik](traefik.md) reverse-proxy server
+- [Traefik](traefik.md) reverse-proxy server
   - for serving the Authelia portal website
   - for protecting other Traefik-based services by adding the Authelia forward-auth middleware to them when [Protecting services with Authelia's forward-auth](#protecting-a-service-with-authelias-forward-auth)
 
@@ -177,8 +177,7 @@ The example configuration above configures a single OpenID Connect client (appli
 
 You will need to create a shared secret and hash its value (e.g. `php -r 'echo password_hash("PASSWORD_HERE",  PASSWORD_ARGON2ID);'`). Feel free to use another language (or tool) for creating a hash as well. A few different hash algorithms are supported besides Argon2id.
 
-Finally, configure your application, hooking it to Authelia's OpenID Connect identity provider.
-You can get inspired by the [sample configuration](grafana.md#single-sign-on--authelia) we have created for [Grafana](grafana.md).
+Finally, configure your application, hooking it to Authelia's OpenID Connect identity provider. You can get inspired by the [sample configuration](grafana.md#single-sign-on--authelia) we have created for [Grafana](grafana.md).
 
 ## Extending the Authelia configuration
 

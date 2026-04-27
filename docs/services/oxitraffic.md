@@ -34,10 +34,10 @@ For details about configuring the [Ansible role for OxiTraffic](https://github.c
 
 This service requires the following other services:
 
-- a [Postgres](postgres.md) database
-- a [Traefik](traefik.md) reverse-proxy server
+- [Postgres](postgres.md) database
+- [Traefik](traefik.md) reverse-proxy server
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 

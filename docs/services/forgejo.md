@@ -43,7 +43,7 @@ This service requires the following other services:
 - (optional) [Meilisearch](meilisearch.md)
 - (optional) [Postgres](postgres.md) / MySQL / [MariaDB](mariadb.md) database — Forgejo will default to [SQLite](https://www.sqlite.org/) if Postgres is not enabled
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 
@@ -183,7 +183,7 @@ Nevertheless, upgrades may be possible with some manual work. See [this section]
 
 - [Forgejo Runner](forgejo-runner.md) — Runner to use with Forgejo Actions
 - [Gitea](gitea.md) — Painless self-hosted [Git](https://git-scm.com/) service
-- [Radicle node](radicle-node.md) — Network daemon for the [Radicle](https://radicle.xyz/) network, a peer-to-peer code collaboration stack built on Git
+- [Radicle node](radicle-node.md) — Network daemon for the [Radicle](https://radicle.dev/) network, a peer-to-peer code collaboration stack built on Git
 - [Woodpecker CI](woodpecker-ci.md) — Simple Continuous Integration (CI) engine with great extensibility
 
 ### Integration with Woodpecker CI

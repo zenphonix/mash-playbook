@@ -35,10 +35,10 @@ For details about configuring the [Ansible role for linkding](https://github.com
 
 This service requires the following other services:
 
-- a [Traefik](traefik.md) reverse-proxy server
+- [Traefik](traefik.md) reverse-proxy server
 - (optional) a [Postgres](postgres.md) database — linkding will default to [SQLite](https://www.sqlite.org/) if Postgres is not enabled
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 

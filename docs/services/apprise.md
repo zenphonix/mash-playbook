@@ -27,9 +27,9 @@ The playbook can install and configure [Apprise API](https://github.com/caronc/a
 
 See the project's [documentation](https://github.com/caronc/apprise-api/blob/master/README.md) to learn what Apprise API does and why it might be useful to you.
 
-For details about configuring the [Ansible role for Apprise API](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az292aD8q3r8xqhJvLe2zv1b24gu7a), you can check them via:
+For details about configuring the [Ansible role for Apprise API](https://radicle.network/nodes/seed.radicle.garden/rad%3Az292aD8q3r8xqhJvLe2zv1b24gu7a), you can check them via:
 
-- 🌐 [the role's documentation](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az292aD8q3r8xqhJvLe2zv1b24gu7a/tree/docs/configuring-apprise.md) online
+- 🌐 [the role's documentation](https://radicle.network/nodes/seed.radicle.garden/rad%3Az292aD8q3r8xqhJvLe2zv1b24gu7a/tree/docs/configuring-apprise.md) online
 - 📁 `roles/galaxy/apprise/docs/configuring-apprise.md` locally, if you have [fetched the Ansible roles](../installing.md)
 
 ## Dependencies
@@ -38,7 +38,7 @@ This service requires the following other services:
 
 - (optional) [Traefik](traefik.md) — a reverse-proxy server for exposing Configuration Manager publicly
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 
@@ -116,7 +116,7 @@ You can check the list of notification services supported by Apprise at <https:/
 
 ## Troubleshooting
 
-See [this section](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az292aD8q3r8xqhJvLe2zv1b24gu7a/tree/docs/configuring-apprise.md#troubleshooting) on the role's documentation for details.
+See [this section](https://radicle.network/nodes/seed.radicle.garden/rad%3Az292aD8q3r8xqhJvLe2zv1b24gu7a/tree/docs/configuring-apprise.md#troubleshooting) on the role's documentation for details.
 
 ## Related services
 

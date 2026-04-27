@@ -21,9 +21,9 @@ See the project's [documentation](https://codeberg.org/moanos/notfellchen/src/br
 
 This service requires the following other services:
 
-- a [Postgres](postgres.md) database
-- a [Traefik](traefik.md) reverse-proxy server
-- a [Valkey](valkey.md) data-store; see [below](#configure-valkey) for details about installation
+- [Postgres](postgres.md) database
+- [Traefik](traefik.md) reverse-proxy server
+- [Valkey](valkey.md) data-store; see [below](#configure-valkey) for details about installation
 
 ## Configuration
 
@@ -227,5 +227,5 @@ After installation, the Notfellchen instance becomes available at the URL specif
 To log in to the service and get started, you have to create a user ("superuser") at first. To do so, run the command below after replacing `USERNAME`, `PASSWORD`, and `EMAIL_ADDRESS`:
 
 ```bash
-just run-tags notfellchen-add-superuser --extra-vars=username=USERNAME --extra-vars=password=PASSWORD --extra-vars=email=EMAIL_ADDRESS
+ansible-playbook -i inventory/hosts setup.yml --tags=notfellchen-add-superuser -e username=USERNAME -e password=PASSWORD -e email=EMAIL_ADDRESS
 ```

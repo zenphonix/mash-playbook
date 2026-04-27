@@ -302,6 +302,10 @@
     - role: galaxy/etherpad
     # /role-specific:etherpad
 
+    # role-specific:eurooffice
+    - role: galaxy/eurooffice
+    # /role-specific:eurooffice
+
     # role-specific:excalidraw
     - role: galaxy/excalidraw
     # /role-specific:excalidraw
@@ -373,6 +377,10 @@
     # role-specific:gitea
     - role: galaxy/gitea
     # /role-specific:gitea
+
+    # role-specific:gotenberg
+    - role: galaxy/gotenberg
+    # /role-specific:gotenberg
 
     # role-specific:gothub
     - role: galaxy/gothub
@@ -497,6 +505,10 @@
     # role-specific:languagetool
     - role: galaxy/languagetool
     # /role-specific:languagetool
+
+    # role-specific:librebooking
+    - role: galaxy/librebooking
+    # /role-specific:librebooking
 
     # role-specific:limesurvey
     - role: galaxy/limesurvey

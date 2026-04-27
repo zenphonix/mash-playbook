@@ -32,9 +32,9 @@ See the project's [documentation](https://www.navidrome.org/docs/) to learn what
 
 This service requires the following other services:
 
-- a [Traefik](traefik.md) reverse-proxy server
+- [Traefik](traefik.md) reverse-proxy server
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 

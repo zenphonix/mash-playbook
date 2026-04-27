@@ -373,6 +373,11 @@ mash_playbook_devture_systemd_service_manager_services_list_auto_itemized:
     {{ ({'name': (etherpad_identifier + '.service'), 'priority': 2000, 'restart_necessary': (etherpad_restart_necessary | bool), 'groups': ['mash', 'etherpad']} if etherpad_enabled else omit) }}
   # /role-specific:etherpad
 
+  # role-specific:eurooffice
+  - |-
+    {{ ({'name': (eurooffice_identifier + '.service'), 'priority': 2000, 'restart_necessary': (eurooffice_restart_necessary | bool), 'groups': ['mash', 'eurooffice']} if eurooffice_enabled else omit) }}
+  # /role-specific:eurooffice
+
   # role-specific:excalidraw
   - |-
     {{ ({'name': (excalidraw_identifier + '.service'), 'priority': 2000, 'restart_necessary': (excalidraw_restart_necessary | bool), 'groups': ['mash', 'excalidraw']} if excalidraw_enabled else omit) }}
@@ -475,6 +480,11 @@ mash_playbook_devture_systemd_service_manager_services_list_auto_itemized:
   - |-
     {{ ({'name': (gitea_identifier + '.service'), 'priority': 2000, 'restart_necessary': (gitea_restart_necessary | bool), 'groups': ['mash', 'gitea']} if gitea_enabled else omit) }}
   # /role-specific:gitea
+
+  # role-specific:gotenberg
+  - |-
+    {{ ({'name': (gotenberg_identifier + '.service'), 'priority': 2000, 'restart_necessary': (gotenberg_restart_necessary | bool), 'groups': ['mash', 'gotenberg']} if gotenberg_enabled else omit) }}
+  # /role-specific:gotenberg
 
   # role-specific:gothub
   - |-
@@ -650,6 +660,11 @@ mash_playbook_devture_systemd_service_manager_services_list_auto_itemized:
   - |-
     {{ ({'name': (languagetool_identifier + '.service'), 'priority': 2000, 'restart_necessary': (languagetool_restart_necessary | bool), 'groups': ['mash', 'languagetool']} if languagetool_enabled else omit) }}
   # /role-specific:languagetool
+
+  # role-specific:librebooking
+  - |-
+    {{ ({'name': (librebooking_identifier + '.service'), 'priority': 2000, 'restart_necessary': (librebooking_restart_necessary | bool), 'groups': ['mash', 'librebooking']} if librebooking_enabled else omit) }}
+  # /role-specific:librebooking
 
   # role-specific:limesurvey
   - |-
@@ -918,8 +933,6 @@ mash_playbook_devture_systemd_service_manager_services_list_auto_itemized:
   # role-specific:paperless
   - |-
     {{ ({'name': (paperless_identifier + '.service'), 'priority': 2000, 'restart_necessary': (paperless_restart_necessary | bool), 'groups': ['mash', 'paperless']} if paperless_enabled else omit) }}
-  - |-
-    {{ ({'name': (paperless_gotenberg_identifier + '.service'), 'priority': 2000, 'restart_necessary': (paperless_restart_necessary | bool), 'groups': ['mash', 'paperless']} if paperless_enabled and paperless_gotenberg_enabled else omit) }}
   # /role-specific:paperless
 
   # role-specific:papra
@@ -5306,6 +5319,47 @@ etherpad_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_pri
 
 
 
+# role-specific:eurooffice
+########################################################################
+#                                                                      #
+# eurooffice                                                           #
+#                                                                      #
+########################################################################
+
+eurooffice_enabled: false
+
+eurooffice_identifier: "{{ mash_playbook_service_identifier_prefix }}eurooffice"
+
+eurooffice_base_path: "{{ mash_playbook_base_path }}/{{ mash_playbook_service_base_directory_name_prefix }}eurooffice"
+
+# Run as root
+eurooffice_uid: "0"
+eurooffice_gid: "0"
+
+eurooffice_container_additional_networks_auto: |
+  {{
+    ([mash_playbook_reverse_proxyable_services_additional_network] if mash_playbook_reverse_proxyable_services_additional_network else [])
+  }}
+
+eurooffice_container_labels_traefik_enabled: "{{ mash_playbook_traefik_labels_enabled }}"
+eurooffice_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_proxyable_services_additional_network }}"
+
+eurooffice_environment_variables_jwt_secret: "{{ (mash_playbook_generic_secret_key + ':onlyoffice.j') | hash('sha512') | to_uuid }}"
+
+# role-specific:traefik
+eurooffice_container_labels_traefik_entrypoints: "{{ traefik_entrypoint_primary }}"
+eurooffice_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_primary }}"
+# /role-specific:traefik
+
+########################################################################
+#                                                                      #
+# /eurooffice                                                          #
+#                                                                      #
+########################################################################
+# /role-specific:eurooffice
+
+
+
 # role-specific:excalidraw
 ########################################################################
 #                                                                      #
@@ -5651,6 +5705,8 @@ filebrowser_quantum_gid: "{{ mash_playbook_gid }}"
 
 filebrowser_quantum_systemd_wanted_services_list_auto: |
   {{
+    ([eurooffice_identifier ~ '.service'] if eurooffice_enabled | default(false) and filebrowser_quantum_config_integrations_office else [])
+    +
     ([onlyoffice_docs_identifier ~ '.service'] if onlyoffice_docs_enabled | default(false) and filebrowser_quantum_config_integrations_office else [])
   }}
 
@@ -5659,14 +5715,10 @@ filebrowser_quantum_container_additional_networks_auto: |
     ([mash_playbook_reverse_proxyable_services_additional_network] if mash_playbook_reverse_proxyable_services_additional_network else [])
   }}
 
+filebrowser_quantum_config_integrations_office: "{{ onlyoffice_docs_enabled | default(false) or eurooffice_enabled | default(false) }}"
+
 filebrowser_quantum_container_labels_traefik_enabled: "{{ mash_playbook_traefik_labels_enabled }}"
 filebrowser_quantum_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_proxyable_services_additional_network }}"
-
-# role-specific:onlyoffice_docs
-filebrowser_quantum_config_integrations_office: "{{ onlyoffice_docs_enabled }}"
-filebrowser_quantum_config_integrations_office_url: "{{ onlyoffice_docs_scheme }}://{{ onlyoffice_docs_hostname }}"
-filebrowser_quantum_config_integrations_office_secret: "{{ onlyoffice_docs_environment_variables_jwt_secret }}"
-# /role-specific:onlyoffice_docs
 
 # role-specific:traefik
 filebrowser_quantum_container_labels_traefik_entrypoints: "{{ traefik_entrypoint_primary }}"
@@ -6256,7 +6308,7 @@ ghostfolio_database_hostname: "{{ postgres_connection_hostname if postgres_enabl
 ghostfolio_database_port: "{{ postgres_connection_port if postgres_enabled else '5432' }}"
 ghostfolio_database_username: ghostfolio
 ghostfolio_database_password: "{{ (mash_playbook_generic_secret_key + ':db.ghostfolio') | hash('sha512') | to_uuid }}"
-ghostfolio_database_sslmode: "{{ 'disable' if postgres_enabled and (ghostfolio_database_hostname == postgres_connection_hostname or ghostfolio_database_socket_enabled) else 'prefer' }}"
+ghostfolio_database_sslmode: "{{ 'disable' if postgres_enabled and (ghostfolio_database_hostname == postgres_connection_hostname or ghostfolio_database_socket_enabled) else 'require' }}"
 ghostfolio_database_socket_path_host: "{{ postgres_run_path }}"
 # /role-specific:postgres
 
@@ -6376,6 +6428,52 @@ gitea_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_primar
 #                                                                      #
 ########################################################################
 # /role-specific:gitea
+
+
+
+# role-specific:gotenberg
+########################################################################
+#                                                                      #
+# gotenberg                                                            #
+#                                                                      #
+########################################################################
+
+gotenberg_enabled: false
+
+gotenberg_identifier: "{{ mash_playbook_service_identifier_prefix }}gotenberg"
+
+gotenberg_base_path: "{{ mash_playbook_base_path }}/{{ mash_playbook_service_base_directory_name_prefix }}gotenberg"
+
+gotenberg_uid: "{{ mash_playbook_uid }}"
+gotenberg_gid: "{{ mash_playbook_gid }}"
+
+gotenberg_container_additional_networks_auto: |
+  {{
+    ([mash_playbook_reverse_proxyable_services_additional_network] if mash_playbook_reverse_proxyable_services_additional_network else [])
+  }}
+
+# Only enable Traefik labels if a hostname is set (indicating that this will be exposed publicly)
+gotenberg_container_labels_traefik_enabled: "{{ mash_playbook_traefik_labels_enabled and gotenberg_hostname | length > 0 }}"
+gotenberg_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_proxyable_services_additional_network }}"
+
+# role-specific:paperless
+# See: https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/refs/heads/main/docker/compose/docker-compose.sqlite-tika.yml
+gotenberg_environment_variables_additional_variables: |
+  CHROMIUM_DISABLE_JAVASCRIPT=true
+  CHROMIUM_ALLOW_LIST=file:///tmp/.*
+# /role-specific:paperless
+
+# role-specific:traefik
+gotenberg_container_labels_traefik_entrypoints: "{{ traefik_entrypoint_primary }}"
+gotenberg_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_primary }}"
+# /role-specific:traefik
+
+########################################################################
+#                                                                      #
+# /gotenberg                                                           #
+#                                                                      #
+########################################################################
+# /role-specific:gotenberg
 
 
 
@@ -9095,6 +9193,56 @@ languagetool_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver
 
 
 
+# role-specific:librebooking
+########################################################################
+#                                                                      #
+# librebooking                                                         #
+#                                                                      #
+########################################################################
+
+librebooking_enabled: false
+
+librebooking_identifier: "{{ mash_playbook_service_identifier_prefix }}librebooking"
+
+librebooking_base_path: "{{ mash_playbook_base_path }}/{{ mash_playbook_service_base_directory_name_prefix }}librebooking"
+
+librebooking_uid: "33"
+librebooking_gid: "33"
+
+librebooking_systemd_required_services_list_auto: |
+  {{
+    ([mariadb_identifier ~ '.service'] if mariadb_enabled and librebooking_database_hostname == mariadb_connection_hostname else [])
+  }}
+
+librebooking_container_additional_networks_auto: |
+  {{
+    ([mariadb_container_network] if mariadb_enabled and librebooking_database_hostname == mariadb_connection_hostname and librebooking_container_network != mariadb_container_network else [])
+    +
+    ([mash_playbook_reverse_proxyable_services_additional_network] if mash_playbook_reverse_proxyable_services_additional_network else [])
+  }}
+
+librebooking_container_labels_traefik_enabled: "{{ mash_playbook_traefik_labels_enabled }}"
+librebooking_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_proxyable_services_additional_network }}"
+
+# role-specific:mariadb
+librebooking_database_hostname: "{{ mariadb_connection_hostname if mariadb_enabled else '' }}"
+librebooking_database_password: "{{ (mash_playbook_generic_secret_key + ':librebooking') | hash('sha512') | to_uuid }}"
+# /role-specific:mariadb
+
+# role-specific:traefik
+librebooking_container_labels_traefik_entrypoints: "{{ traefik_entrypoint_primary }}"
+librebooking_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_primary }}"
+# /role-specific:traefik
+
+########################################################################
+#                                                                      #
+# /librebooking                                                        #
+#                                                                      #
+########################################################################
+# /role-specific:librebooking
+
+
+
 # role-specific:limesurvey
 ########################################################################
 #                                                                      #
@@ -9761,6 +9909,17 @@ mash_playbook_mariadb_managed_databases_auto_itemized:
       } if kutt_enabled and kutt_database_mysql_hostname == mariadb_connection_hostname and kutt_database_type == 'mysql' else omit)
     }}
   # /role-specific:kutt
+
+  # role-specific:librebooking
+  - |-
+    {{
+      ({
+        'name': librebooking_database_name,
+        'username': librebooking_database_username,
+        'password': librebooking_database_password,
+      } if librebooking_enabled and librebooking_database_hostname == mariadb_connection_hostname else omit)
+    }}
+  # /role-specific:librebooking
 
   # role-specific:limesurvey
   - |-
@@ -12168,6 +12327,8 @@ paperless_systemd_required_services_list_auto: |
 
 paperless_systemd_wanted_services_list_auto: |
   {{
+    ([gotenberg_identifier ~ '.service'] if gotenberg_enabled | default(false) else [])
+    +
     ([exim_relay_identifier ~ '.service'] if exim_relay_enabled | default(false) and paperless_email_host == exim_relay_identifier else [])
     +
     ([tika_identifier ~ '.service'] if tika_enabled | default(false) else [])
@@ -12176,6 +12337,8 @@ paperless_systemd_wanted_services_list_auto: |
 paperless_container_additional_networks_auto: |
   {{
     ([exim_relay_container_network] if exim_relay_enabled | default(false) and paperless_email_host == exim_relay_identifier and paperless_container_network != exim_relay_container_network else [])
+    +
+    ([gotenberg_container_network] if gotenberg_enabled | default(false) and paperless_container_network != gotenberg_container_network else [])
     +
     ([mariadb_container_network] if mariadb_enabled | default(false) and paperless_database_mariadb_hostname == mariadb_connection_hostname and paperless_container_network != mariadb_container_network and paperless_database_type == 'mariadb' else [])
     +
@@ -12191,6 +12354,8 @@ paperless_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_pro
 
 paperless_database_type: "{{ 'postgres' if postgres_enabled | default(false) else 'sqlite' }}"
 
+paperless_gotenberg_enabled: "{{ paperless_tika_enabled | default(false) }}" # Apache Tika Server requires Gotenberg
+
 paperless_secret_key: "{{ (mash_playbook_generic_secret_key + ':paperless.secret') | hash('sha512') | to_uuid }}"
 
 # role-specific:exim_relay
@@ -12198,6 +12363,11 @@ paperless_email_host: "{{ exim_relay_identifier if exim_relay_enabled else '' }}
 paperless_email_port: "{{ 8025 if exim_relay_enabled else '' }}"
 paperless_email_from: "{{ exim_relay_sender_address if exim_relay_enabled else '' }}"
 # /role-specific:exim_relay
+
+# role-specific:gotenberg
+paperless_gotenberg_bundled_enabled: "{{ false if gotenberg_enabled }}" # Stop ansible-role-paperless from installing Gotenberg bundled with the role if it is managed by ansible-role-gotenberg
+paperless_tika_gotenberg_endpoint: "http://{{ gotenberg_identifier }}:{{ gotenberg_container_http_port }}"
+# /role-specific:gotenberg
 
 # role-specific:mariadb
 paperless_database_mariadb_hostname: "{{ mariadb_connection_hostname if mariadb_enabled else '' }}"
@@ -12215,9 +12385,8 @@ paperless_database_postgres_socket_path_host: "{{ postgres_run_path }}"
 # /role-specific:postgres
 
 # role-specific:tika
-paperless_gotenberg_enabled: "{{ tika_enabled }}"
-paperless_tika_bundled_enabled: "{{ false if tika_enabled }}" # Stop ansible-role-paperless from installing Apache Tika Server bundled with the role if it is managed by ansible-role-tika
 paperless_tika_enabled: "{{ tika_enabled }}"
+paperless_tika_bundled_enabled: "{{ false if tika_enabled }}" # Stop ansible-role-paperless from installing Apache Tika Server bundled with the role if it is managed by ansible-role-tika
 paperless_tika_endpoint: "http://{{ tika_identifier }}:{{ tika_container_http_port }}"
 # /role-specific:tika
 
@@ -13661,7 +13830,7 @@ radicle_node_identifier: "{{ mash_playbook_service_identifier_prefix }}radicle-n
 radicle_node_base_path: "{{ mash_playbook_base_path }}/{{ mash_playbook_service_base_directory_name_prefix }}radicle-node"
 
 # Apparently the UID and GID are fixed
-# Also see: https://app.radicle.xyz/nodes/iris.radicle.xyz/rad%3Az26FDgNVVRUfPpLiUvUksoFPFkwdw/commits/5a095b1816ec75522d59ede8e258844763e1f1ae
+# Also see: https://radicle.network/nodes/iris.radicle.network/rad%3Az26FDgNVVRUfPpLiUvUksoFPFkwdw/commits/5a095b1816ec75522d59ede8e258844763e1f1ae
 radicle_node_uid: "11011"
 radicle_node_gid: "11011"
 
@@ -13963,8 +14132,6 @@ reitti_container_additional_networks_auto: |
 
 reitti_container_labels_traefik_enabled: "{{ mash_playbook_traefik_labels_enabled }}"
 reitti_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_proxyable_services_additional_network }}"
-reitti_tilecache_container_labels_traefik_enabled: "{{ mash_playbook_traefik_labels_enabled }}"
-reitti_tilecache_container_labels_traefik_docker_network: "{{ mash_playbook_reverse_proxyable_services_additional_network }}"
 
 # role-specific:postgis
 reitti_database_hostname: "{{ postgis_connection_hostname if postgis_enabled else '' }}"
@@ -13975,8 +14142,6 @@ reitti_database_password: "{{ (mash_playbook_generic_secret_key + ':reitti') | h
 # role-specific:traefik
 reitti_container_labels_traefik_entrypoints: "{{ traefik_entrypoint_primary }}"
 reitti_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_primary }}"
-reitti_tilecache_container_labels_traefik_entrypoints: "{{ traefik_entrypoint_primary }}"
-reitti_tilecache_container_labels_traefik_tls_certResolver: "{{ traefik_certResolver_primary }}"
 # /role-specific:traefik
 
 ########################################################################

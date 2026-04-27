@@ -49,6 +49,7 @@ Your UnifiedPush-compatible applications (such as [DAVx⁵](https://www.davx5.co
 As the ntfy Android app functions as the Distributor too, you do not have to install something else on your device.
 
 💡 **Notes**:
+
 - Refer [this official documentation of UnifiedPush](https://unifiedpush.org/users/troubleshooting/#understand-unifiedpush) for a simple explanation about relationship among UnifiedPush-compatible application, Distributor, Push Server, and the application's server.
 - [Here](https://unifiedpush.org/users/apps/) is a non-exhaustive list of the end-user applications that use UnifiedPush.
 - Unlike push notifications using Google's FCM or Apple's APNs, each end-user can choose the Push Server which one prefer. This means that deploying a ntfy server cannot enforce a UnifiedPush-compatible application (and its users) to use the exact server.
@@ -66,7 +67,7 @@ This service requires the following other services:
 - [Traefik](traefik.md) reverse-proxy server
 - (optional) [exim-relay](exim-relay.md) mailer
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 

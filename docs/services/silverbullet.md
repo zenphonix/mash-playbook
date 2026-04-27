@@ -27,9 +27,9 @@ SilverBullet is a programmable, private, personal knowledge management platform.
 
 See the project's [documentation](https://silverbullet.md/Manual) to learn what SilverBullet does and why it might be useful to you.
 
-For details about configuring the [Ansible role for SilverBullet](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog), you can check them via:
+For details about configuring the [Ansible role for SilverBullet](https://radicle.network/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog), you can check them via:
 
-- 🌐 [the role's documentation](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog/tree/docs/configuring-silverbullet.md) online
+- 🌐 [the role's documentation](https://radicle.network/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog/tree/docs/configuring-silverbullet.md) online
 - 📁 `roles/galaxy/silverbullet/docs/configuring-silverbullet.md` locally, if you have [fetched the Ansible roles](../installing.md)
 
 ## Dependencies
@@ -38,7 +38,7 @@ This service requires the following other services:
 
 - [Traefik](traefik.md) reverse-proxy server
 
-## Adjusting the playbook configuration
+## Configuration
 
 To enable this service, add the following configuration to your `vars.yml` file and re-run the [installation](../installing.md) process:
 
@@ -64,7 +64,7 @@ silverbullet_hostname: silverbullet.example.com
 
 ### Set the username and password
 
-You also need to create an instance's user to access to the UI after installation. See [this section](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog/tree/docs/configuring-silverbullet.md#set-the-username-and-password) on the role's documentation for details.
+You also need to create an instance's user to access to the UI after installation. See [this section](https://radicle.network/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog/tree/docs/configuring-silverbullet.md#set-the-username-and-password) on the role's documentation for details.
 
 ### Integrating with Prometheus (optional)
 
@@ -109,7 +109,7 @@ After running the command for installation, the SilverBullet instance becomes av
 
 ## Troubleshooting
 
-See [this section](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog/tree/docs/configuring-silverbullet.md#troubleshooting) on the role's documentation for details.
+See [this section](https://radicle.network/nodes/seed.radicle.garden/rad%3Az3PxyXm3EXE4xCNKcaKVKmtdjVNog/tree/docs/configuring-silverbullet.md#troubleshooting) on the role's documentation for details.
 
 ## Related services
 
